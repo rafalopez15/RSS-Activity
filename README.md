@@ -2,7 +2,7 @@
 
 ## Using **Python 3** this program determines if a Company which uses RSS feeds has had no activity for a given number of days.
 
-### Using and XML parser the program finds the last updated title posted and then converts it into a date format to find the difference and detemine if that difference is greater or equal to the days give to check for no activity.
+### Using and XML parser the program finds the last updated title posted and then converts it into a date format to find the difference and detemine if that difference is greater or equal to the days given to check for no activity.
 
 ### To run this program:
 ```
