@@ -58,7 +58,7 @@ def get_inactivity(days):
     Parameters
     ----------
     days : int
-        Number of to days to check if there was any activity
+        Number of to days to check if there was any activity.
     
     Returns
     -------
@@ -79,7 +79,7 @@ def find_inactivity_for_days(days):
     Given a dictionary of Companies and RSS feeds, determines which company has had no activity
     for a given number of days.
 
-    Prints those compaines which have had no activity for the given number of days.
+    Prints those companies which have had no activity for the given number of days.
 
     Parameters
     days : int
@@ -88,7 +88,7 @@ def find_inactivity_for_days(days):
     for company, rss_feeds in data.items():
         # It is possible that a company contains multiple RSS feeds
         # this condition checks to see if that is the case and iterates through
-        # all of the compaines RSS feeds.
+        # that company's RSS feeds.
         if isinstance(rss_feeds, list):
             for feed in rss_feeds:
                 get_xml(feed)
