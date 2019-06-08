@@ -3,7 +3,6 @@
 #for a given number of days.
 from datetime import datetime
 import requests
-import os
 import math
 import xml.etree.ElementTree as ET
 
