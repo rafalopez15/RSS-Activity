@@ -4,6 +4,7 @@
 from datetime import datetime
 import requests
 import os
+import math
 import xml.etree.ElementTree as ET
 
 # Sample data used to test code
@@ -40,8 +41,9 @@ def find_date(root):
     Returns
     -------
     str
-        A date in string format
+        A date in string format.
     """
+    # Nesterd for loops to locate the publish date of latest updates.
     for child in root:
         if child.tag == 'channel':
             for channel in child:
@@ -51,14 +53,39 @@ def find_date(root):
                             return item.text
 
 def get_inactivity(days):
+    """
+    Parses XML from RSS feed and returns the difference in days from the last update.
+
+    Parameters
+    ----------
+    days : int
+        Number of to days to check if there was any activity
+    
+    Returns
+    -------
+    bool
+        Compares the difference from last update with current date and returns True or False
+        if the difference is larger that 'days' given.
+    """
     tree = ET.parse('rss_feed.xml')
     root = tree.getroot()
-    date = find_date(root)[5:25]
-    date_obj = datetime.strptime(date, '%d %b %Y %H:%M:%S')
+    # Uses find_date function to get date from RSS feed and converts string into datetime object
+    last_update = datetime.strptime(find_date(root)[5:25], '%d %b %Y %H:%M:%S')
     current_date = datetime.now()
-    return abs((current_date - date_obj).days) >= days
+    # Calculates the difference in days and compares against the parameter days
+    return math.floor((current_date - last_update).days) >= days
 
 def find_inactivity_for_days(days):
+    """
+    Given a dictionary of Companies and RSS feeds, determines which company has had no activity
+    for a given number of days.
+
+    Prints those compaines which have had no activity for the given number of days.
+
+    Parameters
+    days : int
+        Number of day to check for no activity
+    """
     for company, rss_feeds in data.items():
         if isinstance(rss_feeds, list):
             for feed in rss_feeds:
@@ -70,6 +97,5 @@ def find_inactivity_for_days(days):
             if get_inactivity(days):
                 print('{} had no activity for {} days'.format(company, days))
 
-    #os.remove('rss_feed.xml')
 
 find_inactivity_for_days(1)
