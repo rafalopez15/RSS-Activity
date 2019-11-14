@@ -42,14 +42,14 @@ def find_date(root):
     str
         A date in string format.
     """
-    # Nesterd for loops to locate the publish date of latest updates.
-    for child in root:
-        if child.tag == 'channel':
-            for channel in child:
-                if channel.tag == 'item':
-                    for item in channel:
-                        if item.tag == 'pubDate':
-                            return item.text
+
+    # Search XML tree for first 'pubDate' tag which corresponds to the latest publish date
+    tree = ET.parse('rss_feed.xml')
+    root = tree.getroot()
+    try:
+        return next(root.iter('pubDate')).text # The iterable object is the list of matches found
+    except StopIteration:
+        return '' # Return empty string if no element matches were found
 
 def get_inactivity(days):
     """
